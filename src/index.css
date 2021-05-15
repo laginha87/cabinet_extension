@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+div {
+  white-space: pre;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  background: rgba(0,0,0,0);
+}
+
+html {
+  font-family: 'Victor Mono'
+}
+
+
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb:window-inactive {
+  background-color: #ccc;
+  border-radius: 6px;
+  border: 4px solid rgba(0,0,0,0);
+  background-clip: content-box;
+  min-width: 32px;
+  min-height: 32px;
+}
