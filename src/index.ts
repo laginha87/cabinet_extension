@@ -6,11 +6,10 @@ import {
   globalShortcut,
   Tray,
   protocol,
-  MenuItem,
   MenuItemConstructorOptions
 } from 'electron';
 import { ROOT_PATH } from './env';
-import {join, normalize} from 'path';
+import {resolve, normalize} from 'path';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
 
@@ -68,9 +67,9 @@ const focusWindow = () => {
 }
 app.whenReady().then(() => {
 
-  tray = new Tray(join(__dirname, '../../src/assets/icon_2.png'));
+  tray = new Tray(resolve(__dirname, 'assets/icon_2.png'));
   tray.on('click', focusWindow)
-  tray.setPressedImage(join(__dirname, '../../src/assets/icon_pressed.png'))
+  tray.setPressedImage(resolve(__dirname, 'assets/icon_pressed.png'))
   globalShortcut.register('CommandOrControl+Shift+C', () => {
     const callback = () => {
       mainWindow.webContents.send("globalSearch");
@@ -90,7 +89,7 @@ app.whenReady().then(() => {
     callback(normalize(req));
   })
 })
-app.dock.setIcon(join(__dirname, '../../src/assets/dock_icon.png'));
+app.dock.setIcon(resolve(__dirname, 'assets/dock_icon.png'));
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
