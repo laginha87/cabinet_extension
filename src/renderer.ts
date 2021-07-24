@@ -28,5 +28,5 @@
 
 import './index.css';
 import "./Components/App.tsx";
-import { ipcRenderer } from 'electron';
+
 console.log('👋 This message is being logged by "renderer.js", included via webpack');

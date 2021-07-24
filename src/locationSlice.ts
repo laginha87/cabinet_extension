@@ -9,7 +9,7 @@ interface LocationState {
 
 // Define the initial state using that type
 const initialState: LocationState = {
-  favorite: localStorage.getItem('favorite') || ''
+  favorite: localStorage.getItem('favorite') || 'input.txt'
 }
 
 export const locationSlice = createSlice({

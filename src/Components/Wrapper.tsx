@@ -24,7 +24,7 @@ export const useFileContents = (filePath: string) => {
   return fileData;
 }
 
-type FileType = '.md' | '.csv' | '.pdf' | '.png';
+type FileType = '.md' | '.csv' | '.pdf' | '.png' | '.txt';
 
 export const Wrapper: FC = () => {
   const {filepath} = useFileLocation();
@@ -33,6 +33,8 @@ export const Wrapper: FC = () => {
 
   switch (type) {
     case ".md":
+      return <Preview filepath={filepath}/>;
+    case ".txt":
       return <Preview filepath={filepath}/>;
     case ".csv":
       return <Table filepath={filepath}/>;

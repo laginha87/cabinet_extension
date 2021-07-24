@@ -8,7 +8,7 @@ import {
   protocol,
   MenuItemConstructorOptions
 } from 'electron';
-import { ROOT_PATH } from './env';
+import {ROOT_PATH} from './env';
 import {resolve, normalize} from 'path';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
@@ -64,6 +64,7 @@ const focusWindow = () => {
   }
   const bounds = tray.getBounds();
   mainWindow.setPosition(bounds.x - 400, bounds.y)
+  // mainWindow.webContents.openDevTools()
 }
 app.whenReady().then(() => {
 
@@ -116,7 +117,7 @@ app.on('activate', () => {
 
 
 ipcMain.on('show-context-menu', (event, args: { label: string, type: string }[]) => {
-  const template : MenuItemConstructorOptions[] = [
+  const template: MenuItemConstructorOptions[] = [
     {role: 'copy'},
     {role: 'selectAll'},
     ...args.map(({label, type}) => ({
