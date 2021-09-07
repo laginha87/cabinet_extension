@@ -1,8 +1,9 @@
-import {readFile, watch} from "fs";
+import { readFile, watch } from "fs";
 import * as path from 'path';
-import {FC, useEffect, useMemo, useRef, useState} from "react";
-import {Preview} from "./Preview";
-import {getAbsolutePath, useFileLocation} from "./useFileLocation";
+import { FC, useEffect, useMemo, useRef, useState } from "react";
+import { getAbsolutePath } from "./getAbsolutePath";
+import { Preview } from "./Preview";
+import { useFileLocation } from "./useFileLocation";
 
 
 export const useFileContents = (filePath: string) => {
@@ -27,25 +28,25 @@ export const useFileContents = (filePath: string) => {
 type FileType = '.md' | '.csv' | '.pdf' | '.png' | '.txt';
 
 export const Wrapper: FC = () => {
-  const {filepath} = useFileLocation();
+  const { filepath } = useFileLocation();
 
   const type: FileType = useMemo(() => path.extname(filepath) as FileType, [filepath]);
 
   switch (type) {
     case ".md":
-      return <Preview filepath={filepath}/>;
+      return <Preview filepath={filepath} />;
     case ".txt":
-      return <Preview filepath={filepath}/>;
+      return <Preview filepath={filepath} />;
     case ".csv":
-      return <Table filepath={filepath}/>;
+      return <Table filepath={filepath} />;
     case ".png":
-      return <img src={`cabinet://${filepath}`}/>
+      return <img src={`cabinet://${filepath}`} />
     case ".pdf":
-      return <PdfRender filepath={filepath}/>
+      return <PdfRender filepath={filepath} />
   }
 }
 
-const PdfRender: FC<{ filepath: string }> = ({filepath}) => {
+const PdfRender: FC<{ filepath: string }> = ({ filepath }) => {
   const ref = useRef();
 
   /*useEffect(() => {
@@ -69,10 +70,10 @@ const PdfRender: FC<{ filepath: string }> = ({filepath}) => {
 
   const pa = `cabinet:/${filepath}`;
   return <object data={pa} type="application/pdf">
-    <embed src={pa} type="application/pdf" width="600px" height="800px"/>
+    <embed src={pa} type="application/pdf" width="600px" height="800px" />
   </object>;
 }
-const Table: FC<{ filepath: string }> = ({filepath}) => {
+const Table: FC<{ filepath: string }> = ({ filepath }) => {
   const fileData = useFileContents(filepath);
   const [header, ...rows] = fileData.split("\n");
 
@@ -80,10 +81,10 @@ const Table: FC<{ filepath: string }> = ({filepath}) => {
     <div className={"text-2xl"}>{path.basename(filepath, ".csv")}</div>
     <table className={"table"}>
       <thead>
-      {header.split(",").map((e) => (<th>{e}</th>))}
+        {header.split(",").map((e) => (<th>{e}</th>))}
       </thead>
       <tbody>
-      {rows.map(r => <tr>{r.split(",").map((e) => (<td>{e}</td>))}</tr>)}
+        {rows.map(r => <tr>{r.split(",").map((e) => (<td>{e}</td>))}</tr>)}
       </tbody>
     </table>
   </>

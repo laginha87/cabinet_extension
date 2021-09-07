@@ -1,0 +1,1 @@
+CommandOrControl+Shift+C - Activates global search

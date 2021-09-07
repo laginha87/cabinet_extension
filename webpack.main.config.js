@@ -14,14 +14,14 @@ module.exports = {
     rules: require('./webpack.rules'),
   },
   plugins: [new Dotenv(),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: path.resolve(__dirname, 'src', 'assets'),
-          to: path.resolve(__dirname, '.webpack/main', 'assets')
-        }
-      ]
-    })
+  new CopyWebpackPlugin({
+    patterns: [
+      {
+        from: path.resolve(__dirname, 'src', 'assets'),
+        to: path.resolve(__dirname, '.webpack/main', 'assets')
+      }
+    ]
+  })
 
   ],
   resolve: {

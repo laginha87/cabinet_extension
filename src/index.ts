@@ -1,15 +1,12 @@
 import {
   app,
-  BrowserWindow,
-  ipcMain,
-  Menu,
-  globalShortcut,
-  Tray,
-  protocol,
-  MenuItemConstructorOptions
+  BrowserWindow, globalShortcut, ipcMain,
+  Menu, MenuItemConstructorOptions, protocol, Tray
 } from 'electron';
-import {ROOT_PATH} from './env';
-import {resolve, normalize} from 'path';
+import { readFile, watch } from 'fs';
+import { normalize, resolve } from 'path';
+import { getAbsolutePath } from "./Components/getAbsolutePath";
+import { ROOT_PATH } from './env';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
 
@@ -95,8 +92,18 @@ app.dock.setIcon(resolve(__dirname, 'assets/dock_icon.png'));
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
-
+app.on('ready', () => {
+  var inputPath = getAbsolutePath('input.txt');
+  const cb = () => {
+    readFile(inputPath, (err, data) => {
+      const count = data.toString().split("\n").length;
+      app.dock.setBadge("" + count);
+    })
+  };
+  watch(inputPath, (e: "rename" | "change", filename: string) => cb());
+  cb();
+  createWindow();
+});
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
@@ -118,15 +125,15 @@ app.on('activate', () => {
 
 ipcMain.on('show-context-menu', (event, args: { label: string, type: string }[]) => {
   const template: MenuItemConstructorOptions[] = [
-    {role: 'copy'},
-    {role: 'selectAll'},
-    ...args.map(({label, type}) => ({
+    { role: 'copy' },
+    { role: 'selectAll' },
+    ...args.map(({ label, type }) => ({
       label,
       click: () => {
         event.sender.send("context-menu-click", type);
       }
     })),
-    {role: 'toggleDevTools'}
+    { role: 'toggleDevTools' }
   ];
 
   const menu = Menu.buildFromTemplate(template)

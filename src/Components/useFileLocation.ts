@@ -1,15 +1,14 @@
-import {useLocation} from "react-router-dom";
-import {useSelector} from "react-redux";
-import {selectFavorite} from "../locationSlice";
-import {ROOT_PATH} from "../env";
-
-export const getAbsolutePath = (filepath: string) => ROOT_PATH + filepath;
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { ROOT_PATH } from "../env";
+import { selectFavorite } from "../locationSlice";
+import { getAbsolutePath } from "./getAbsolutePath";
 
 export const useFileLocation = () => {
-  const {pathname} = useLocation();
+  const { pathname } = useLocation();
   const favorite = useSelector(selectFavorite);
   let filepath = pathname.slice("/cabinet".length);
   filepath = filepath == '/' ? favorite : filepath;
   const absolutePath = getAbsolutePath(ROOT_PATH + filepath)
-  return {filepath, absolutePath};
+  return { filepath, absolutePath };
 }
