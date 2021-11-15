@@ -96,8 +96,13 @@ app.on('ready', () => {
   var inputPath = getAbsolutePath('input.txt');
   const cb = () => {
     readFile(inputPath, (err, data) => {
-      const count = data.toString().split("\n").length;
-      app.dock.setBadge("" + count);
+      const stringData = data.toString();
+      const count = stringData.split("\n").length;
+      if (stringData.length > 2) {
+        app.dock.setBadge("" + count);
+      } else {
+        app.dock.setBadge("");
+      }
     })
   };
   watch(inputPath, (e: "rename" | "change", filename: string) => cb());
